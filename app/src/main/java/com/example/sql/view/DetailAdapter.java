@@ -18,7 +18,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailHold
 
     private List<Detail> details;
     private LayoutInflater layoutInflater;
-
     private OnDetailItemClickListener onDetailItemClickListener;
 
     public DetailAdapter(Context context,List<Detail> details) {

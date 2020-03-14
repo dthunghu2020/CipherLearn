@@ -34,6 +34,8 @@ public class DetailActivity extends AppCompatActivity {
     private Detail detailSave;
     private DetailAdapter detailAdapter;
 
+    private MainActivity mainActivity;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +58,10 @@ public class DetailActivity extends AppCompatActivity {
         btnDeleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBHelper.getInstance(DetailActivity.this).deleteUser(user.getUseID());
-                DetailActivity.super.onBackPressed();
+                Intent intentResult = new Intent();
+                intentResult.putExtra(KEY.DELETE_USER,true);
+                setResult(RESULT_OK, intentResult);
+                finish();
             }
         });
 
@@ -74,10 +78,7 @@ public class DetailActivity extends AppCompatActivity {
         btnAddDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBHelper.getInstance(DetailActivity.this).insertNewDetail(user.getUseID(),
-                        edtDay.getText().toString(),
-                        edtNumber.getText().toString(),
-                        edtContent.getText().toString());
+                DBHelper.getInstance(DetailActivity.this).insertNewDetail(user.getUseID(),edtDay.getText().toString(),edtNumber.getText().toString(),edtContent.getText().toString());
                 reloadDetails();
             }
         });
@@ -100,8 +101,6 @@ public class DetailActivity extends AppCompatActivity {
                 reloadDetails();
             }
         });
-
-        reloadDetails();
     }
 
     private void reloadDetails() {

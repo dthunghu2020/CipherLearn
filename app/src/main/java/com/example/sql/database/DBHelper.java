@@ -74,9 +74,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = instance.getWritableDatabase(DB_PASS);
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_DETAIL_USER_ID, userID);
+        //values.put(COLUMN_DETAIL_USER_ID, userID);
         values.put(COLUMN_USER_ID, userID);
-        db.delete(TABLE_DETAIL, COLUMN_DETAIL_USER_ID + "='" + userID + "'", new String[]{});
+        //db.delete(TABLE_DETAIL, COLUMN_DETAIL_USER_ID + "='" + userID + "'", new String[]{});
         db.delete(TABLE_USER, COLUMN_USER_ID + "='" + userID + "'", new String[]{});
 
         db.close();
@@ -155,7 +155,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         Log.e("aaa",""+details.size());
-
         return details;
     }
 

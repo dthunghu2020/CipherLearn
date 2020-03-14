@@ -1,5 +1,6 @@
 package com.example.sql.view;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private UserListAdapter userListAdapter;
 
     private List<User> users = new ArrayList<>();
+    private User userSave;
+    private int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +43,17 @@ public class MainActivity extends AppCompatActivity {
         initView();
 
         users.addAll(DBHelper.getInstance(this).getAllUser());
-        userListAdapter = new UserListAdapter(this,users);
+        userListAdapter = new UserListAdapter(this, users);
         rcvUser.setLayoutManager(new LinearLayoutManager(this));
         rcvUser.setAdapter(userListAdapter);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBHelper.getInstance(MainActivity.this).insertNewUser(edtName.getText().toString(),edtPhone.getText().toString());
-                reloadUser();
+                if (!(edtName.getText().toString().isEmpty() || edtPhone.getText().toString().isEmpty())) {
+                    DBHelper.getInstance(MainActivity.this).insertNewUser(edtName.getText().toString(), edtPhone.getText().toString());
+                    reloadUser();
+                }
             }
         });
 
@@ -56,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void OnItemClicked(int position) {
                 Bundle bundle = new Bundle();
-                Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-                bundle.putSerializable(KEY.USER,users.get(position));
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                userSave = users.get(position);
+                bundle.putSerializable(KEY.USER, userSave);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -71,7 +77,20 @@ public class MainActivity extends AppCompatActivity {
         userListAdapter.notifyDataSetChanged();
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                assert data != null;
+                if (data.getBooleanExtra(KEY.DELETE_USER, false)) {
+                    users.remove(userSave);
+                    DBHelper.getInstance(this).deleteUser(userSave.getUseID());
+                    userListAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
 
     private void initView() {
         edtName = findViewById(R.id.edtName);
