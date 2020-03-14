@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_marginBottom="2dp"
+    android:weightSum="12"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/txtDay"
+        android:text="Day: "
+        android:layout_weight="3"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtNumber"
+        android:text="Number: "
+        android:layout_weight="3"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtContent"
+        android:text="Content: "
+        android:layout_weight="6"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
